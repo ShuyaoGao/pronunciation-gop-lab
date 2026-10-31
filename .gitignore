@@ -1,0 +1,28 @@
+# ---- 密钥 / 本地配置（绝不提交）----
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# ---- 运行时生成 / 下载，不入库 ----
+models/
+data/speechocean762/
+data/tts_cache/
+data/history.jsonl
+# 任何录音文件都不入库
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.ogg
+# release zip 上传到 GitHub Releases，不进仓库
+release/

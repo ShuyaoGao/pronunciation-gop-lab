@@ -1,0 +1,18 @@
+{
+  "_说明": "GOP 阈值配置。GOP = 音素各帧上 (log P(应读音素) - log P(当帧最可能音素)) 的均值，<=0，越接近0越标准。",
+  "_重要": "下面是【临时默认值】，来自 GOP 文献常见分布区间，未经本数据集标定！跨口音/录音设备不保证准确。请用 scripts/calibrate_thresholds.py 在 speechocean762 上标定后替换。",
+  "calibrated": false,
+  "calibrated_on": null,
+  "gop_to_score_anchors": [
+    [0.0, 100],
+    [-0.3, 90],
+    [-1.0, 72],
+    [-2.0, 50],
+    [-3.5, 25],
+    [-5.0, 0]
+  ],
+  "level_cutoffs": {
+    "green": 80,
+    "yellow": 55
+  }
+}

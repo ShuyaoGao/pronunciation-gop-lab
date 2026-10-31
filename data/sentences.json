@@ -1,0 +1,30 @@
+{
+  "_说明": "朗读练习的参考句，按 CEFR 难度分级。全部为原创短句，不含受版权保护内容。可自由增删。",
+  "A1": [
+    "I have a red apple.",
+    "She likes to read books.",
+    "The cat is on the table.",
+    "We go to school every day.",
+    "My brother plays football."
+  ],
+  "A2": [
+    "I think the weather is nice today.",
+    "Could you please pass me the water?",
+    "They are planning a trip to the mountains.",
+    "She usually drinks coffee in the morning.",
+    "We watched a really funny movie last night."
+  ],
+  "B1": [
+    "Although it was raining, we decided to walk to the station.",
+    "I would rather stay at home than go out tonight.",
+    "He has been learning English for almost three years.",
+    "The teacher explained the problem clearly and patiently.",
+    "If I had more time, I would travel around the world."
+  ],
+  "B2": [
+    "The committee thoroughly reviewed the proposal before approving it.",
+    "Despite the challenges, the team managed to finish the project on time.",
+    "Her presentation was both informative and surprisingly entertaining.",
+    "We should consider the environmental impact of our daily choices."
+  ]
+}

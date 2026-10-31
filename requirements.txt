@@ -1,0 +1,20 @@
+# 只有“想运行完整版 / 重新生成数据 / 跑测试”才需要 Python；网页 play/ 不需要任何安装。
+# 版本是作者本机实测可用的组合；生态更新快，如遇冲突可把 == 放宽为 >=。
+torch==2.12.0            # CPU 版即可；Linux 加 --index-url https://download.pytorch.org/whl/cpu
+transformers==5.9.0      # 加载 wav2vec2 音素 CTC 模型（首次运行自动下载约 1.26 GB）
+gradio==6.15.2           # 完整版网页 UI（自带录音组件）
+soundfile==0.13.1        # 读 WAV（不依赖 ffmpeg）
+librosa==0.11.0          # 重采样、能量、pYIN 音高
+g2p_en==2.1.0            # 英文 G2P（文本 -> ARPABET 音素）
+numpy>=1.26
+scipy>=1.11
+openai==2.38.0           # 可选：OpenAI 兼容接口的大模型对话；无 key 时离线兜底
+pandas>=2.0
+nltk>=3.8
+
+# 测试（浏览器端与 Python 一致性测试另需 Node.js）
+pytest>=8
+
+# 可选（默认不装）：
+# kokoro                 # 本地神经 TTS（Apache-2.0）
+# datasets               # 标定脚本的 HuggingFace 兜底下载方式

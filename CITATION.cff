@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "如果在教学或研究中使用了本项目，请按以下信息引用。If you use this project, please cite it as below."
+title: "pronunciation-gop-lab: 发音评分实验室 · 看懂 GOP (Pronunciation GOP Lab)"
+type: software
+authors:
+  - family-names: Gao
+    given-names: Shuyao
+    email: "gaoshuyao.mk@gmail.com"
+    affiliation: "aSSIST University (Seoul School of Integrated Sciences and Technologies)"
+version: "1.0"
+date-released: "2026-10-15"
+license: MIT
+repository-code: "https://github.com/ShuyaoGao/pronunciation-gop-lab"
+url: "https://ShuyaoGao.github.io/pronunciation-gop-lab/"
+abstract: >-
+  A teaching demo (AI Teaching Demos) that shows step by step how phone-level pronunciation
+  scores are computed with GOP: reference phonemes, frame posteriors (simulated in the browser
+  demo), CTC forced alignment, GOP, calibrated thresholds and feedback, plus in-browser fluency and
+  intonation measurement. Works on phones (portrait) and desktops. Includes the full Python tool.
+keywords:
+  - course-demo
+  - pronunciation-assessment
+  - speech-processing
+  - ctc-alignment

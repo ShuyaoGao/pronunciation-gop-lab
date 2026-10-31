@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>发音评分实验室 · 看懂 GOP</title>
+<script>
+  /* Collect every JS error (including failed <script> loads) for the self-test. */
+  window.__errors = [];
+  window.addEventListener("error", function (e) {
+    var t = e.target;
+    if (t && t !== window && (t.src || t.href)) window.__errors.push("load failed: " + (t.src || t.href));
+    else window.__errors.push(String(e.message || e.error || e));
+  }, true);
+  window.addEventListener("unhandledrejection", function (e) { window.__errors.push("promise: " + e.reason); });
+</script>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header id="top">
+  <div class="brand"><span class="logo" aria-hidden="true">🗣️</span><span id="app-title">发音评分实验室 · 看懂 GOP</span><span id="app-title-short">发音评分</span></div>
+  <nav id="tabs" role="tablist" aria-label="模式">
+    <button class="tab" role="tab" data-mode="demo" data-tip="自动演示：一句话从“应读音素”到“打分反馈”的五个步骤（模拟数据）"><span class="full">评分演示</span><span class="short">演示</span></button>
+    <button class="tab" role="tab" data-mode="mic" data-tip="用麦克风读一句，浏览器里真算流利度（停顿、语速）和语调（音高起伏）" data-anim="mic"><span class="full">我来读</span><span class="short">我来读</span></button>
+    <button class="tab" role="tab" data-mode="chat" data-tip="离线规则陪练（固定模板，不是 AI 模型）+ 句子难度估计"><span class="full">对话陪练</span><span class="short">陪练</span></button>
+    <button class="tab" role="tab" data-mode="practice" data-tip="跟着任务清单一步步看懂发音评分，完成一项自动打勾"><span class="full">练习</span><span class="short">练习</span></button>
+  </nav>
+  <div class="spacer"></div>
+  <label class="switch" data-tip="把右边的过程面板放大（左右比例 35:65），适合投影；快捷键 B"><input type="checkbox" id="ck-big"> 大屏模式</label>
+  <button id="btn-help" class="round" title="操作说明（H）" aria-label="操作说明">?</button>
+  <button id="btn-exit" class="exit" data-tip="停止所有计算、录音和朗读，并关闭页面">退出</button>
+  <button id="menu-btn" type="button" aria-label="菜单" aria-expanded="false" aria-controls="menu">☰</button>
+  <div id="menu" role="menu" hidden>
+    <button role="menuitem" id="menu-panel" type="button">评分过程面板</button>
+    <button role="menuitem" id="menu-help" type="button">操作说明</button>
+    <div class="sep"></div>
+    <button role="menuitem" id="menu-exit" type="button">退出</button>
+  </div>
+</header>
+
+<main id="main">
+  <section id="left">
+    <div class="card stage" id="stage"></div>
+    <div class="card" id="opts"></div>
+    <div class="card" id="controls"></div>
+    <div class="card" id="explain"></div>
+  </section>
+  <section id="right">
+    <div class="card brain" id="panel"></div>
+    <button id="panel-close" type="button">返回</button>
+  </section>
+</main>
+
+<div id="mob-bar"><button id="panel-btn" type="button">看计算过程面板 ▲</button></div>
+
+<footer id="foot"></footer>
+
+<div id="help" class="modal" hidden>
+  <div class="modal-box" role="dialog" aria-labelledby="help-title">
+    <div class="help-body">
+    <h2 id="help-title">30 秒上手</h2>
+    <div class="help-cards">
+      <div class="hc"><div class="demo demo-steps"><i class="st s1">①</i><i class="st s2">②</i><i class="st s3">③</i><i class="st s4">④</i><i class="st s5">⑤</i></div>
+        <h3>① 看</h3><p>「评分演示」自动播放：一句英文怎样一步步变成<b>逐音素的红 / 黄 / 绿</b>。旁边是每一步的计算过程。<br><span style="color:#ffd27a">演示用的“模型输出”是程序生成的模拟数据。</span></p></div>
+      <div class="hc"><div class="demo demo-click"><i class="d-dot"></i><i class="d-dot"></i><i class="d-dot target"></i><i class="d-cursor"></i></div>
+        <h3>② 点</h3><p>点任意一个<b>音素块</b>或 GOP 柱子，看它被听成了什么、得了几分、怎么改。换「读错一个音 / 漏读一个词」看分数怎么变。</p></div>
+      <div class="hc"><div class="demo demo-mic"><i class="mic-dot"></i><i class="wave w1"></i><i class="wave w2"></i><i class="wave w3"></i></div>
+        <h3>③ 读</h3><p>「我来读」：先听示范，再用麦克风读一句。浏览器里<b>真算</b>停顿、语速和语调；录音不上传、不保存。</p></div>
+    </div>
+    <div class="keys-list help-kbd">
+      <span><kbd>空格</kbd> 播放 / 暂停演示</span><span><kbd>←</kbd><kbd>→</kbd> 上一步 / 下一步</span><span><kbd>N</kbd> 换一种读法</span>
+      <span><kbd>1</kbd>–<kbd>4</kbd> 切换模式</span><span><kbd>B</kbd> 大屏模式</span><span><kbd>H</kbd> 或右上角 <kbd>?</kbd> 再看这页</span>
+    </div>
+    <div class="help-touch">
+      <svg viewBox="0 0 360 124" role="img" aria-label="触屏操作图解：点音素块、拖噪声滑块和点按钮、点录音大按钮">
+        <rect x="6" y="10" width="104" height="64" rx="6" fill="#0b1016" stroke="#34425a"/>
+        <rect x="14" y="30" width="22" height="24" rx="5" fill="#12301f" stroke="#2dbd6e"/><text x="25" y="47" class="ki" text-anchor="middle">aɪ</text>
+        <rect x="40" y="30" width="22" height="24" rx="5" fill="#33290f" stroke="#e3b341"/><text x="51" y="47" class="ki" text-anchor="middle">h</text>
+        <rect x="66" y="30" width="22" height="24" rx="5" fill="#3a1717" stroke="#ff6b6b"/><text x="77" y="47" class="ki" text-anchor="middle">æ</text>
+        <rect x="66" y="30" width="22" height="24" rx="5" fill="none" stroke="#fff" stroke-width="2"/>
+        <path d="M84 56 l6 22 l6 -7 l9 10 l4 -3 l-9 -10 l9 -3 z" fill="#fff"/>
+        <text x="58" y="100" class="kl" text-anchor="middle">① 点音素块看依据</text>
+        <rect x="130" y="40" width="100" height="6" rx="3" fill="#2e3947"/>
+        <circle cx="196" cy="43" r="13" fill="#ffd54f"/>
+        <path d="M150 43 h30" stroke="#8b98a8" stroke-width="2" stroke-dasharray="3 3"/>
+        <path d="M172 36 l8 7 l-8 7" fill="none" stroke="#8b98a8" stroke-width="2"/>
+        <text x="180" y="100" class="kl" text-anchor="middle">② 拖噪声滑块、点按钮</text>
+        <rect x="250" y="18" width="104" height="60" rx="6" fill="#0b1016" stroke="#34425a"/>
+        <rect x="258" y="30" width="88" height="36" rx="8" fill="#c62828"/>
+        <text x="302" y="53" class="kk" text-anchor="middle">● 开始录音</text>
+        <path d="M296 92 l6 -12 l6 12" fill="none" stroke="#ffd54f" stroke-width="2"/>
+        <text x="302" y="112" class="kl" text-anchor="middle">③ 「我来读」点大按钮录音</text>
+      </svg>
+      <p>竖屏使用。「演示」里从上往下是：句子和逐音素打分条、热力图和 GOP 柱（紧凑画法）、按钮、滑块和说明，整页可以上下滑。「我来读」「陪练」里计算过程默认收起：点<b>底部的「看计算过程面板」</b>全屏打开，「返回」关闭。右上角 <b>☰</b> 里有操作说明和退出。</p>
+    </div>
+    <p class="help-foot">这是纯静态网页：不联网、不装任何东西，关掉标签页就全部结束。完整版（真实模型打分）需要 Python，见 README。</p>
+    </div>
+    <div class="help-actions"><button id="help-close" class="big-btn">开始看</button></div>
+  </div>
+</div>
+
+<div id="rotate-hint" role="status" hidden><div><b>竖屏体验更佳</b>把手机竖过来：上面是句子和打分条，下面是热力图、按钮和滑块。<br><button id="rot-ok" type="button">仍然横屏继续</button></div></div>
+
+<div id="tip" hidden></div>
+<div id="toast"></div>
+<pre id="selftest" hidden></pre>
+
+<script src="js/config.js"></script>
+<script src="js/credits.js"></script>
+<script src="data/app_data.js"></script>
+<script src="js/gop_core.js"></script>
+<script src="js/simulate.js"></script>
+<script src="js/text_tools.js"></script>
+<script src="js/prosody.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

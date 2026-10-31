@@ -1,0 +1,45 @@
+{
+  "_说明": "由 scripts/calibrate_thresholds.py 在 speechocean762 上标定生成。详见 data/calibration_report.md。",
+  "calibrated": true,
+  "calibrated_on": "2026-06-12",
+  "dataset": "speechocean762 (OpenSLR-101, CC BY 4.0)",
+  "split": "train",
+  "device": "cpu",
+  "sampling": "按 (speaker × 句总分段[0-4/5-6/7-8/9-10]) 分层轮转抽样 1200/2500 条（seed=762）",
+  "n_utts": 1200,
+  "n_phones": 21194,
+  "n_good": 17143,
+  "n_bad": 1172,
+  "auc_good_vs_bad": 0.878,
+  "pearson_gop_vs_expert": 0.4892,
+  "gop_to_score_anchors": [
+    [
+      0.0,
+      100
+    ],
+    [
+      -0.05,
+      85
+    ],
+    [
+      -1.811,
+      60
+    ],
+    [
+      -3.622,
+      40
+    ],
+    [
+      -8.751,
+      10
+    ],
+    [
+      -10.807,
+      0
+    ]
+  ],
+  "level_cutoffs": {
+    "green": 80,
+    "yellow": 55
+  }
+}
